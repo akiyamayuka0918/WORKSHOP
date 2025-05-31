@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtVista - 絵画作品販売サービス</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fefefe;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d68a7f;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d68a7f;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #f8d7da, #d68a7f);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(214, 138, 127, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8e2d8, #f8d7da);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yuragi-AvhrkdpidHSb5V6Dhnt6PTTf1WMCZl.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #666;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d68a7f, #c97c72);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #d68a7f;
+            padding: 1rem 2rem;
+            border: 2px solid #d68a7f;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(214, 138, 127, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: #d68a7f;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Featured Artworks */
+        .featured {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            font-weight: 300;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .artwork-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .artwork-info {
+            padding: 1.5rem;
+        }
+
+        .artwork-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .artwork-artist {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .artwork-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d68a7f;
+        }
+
+        /* Featured Artwork */
+        .featured-artwork {
+            padding: 80px 0;
+            background: #f8e2d8;
+            text-align: center;
+        }
+
+        .featured-artwork-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .featured-artwork-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+        }
+
+        .featured-artwork-info {
+            max-width: 600px;
+        }
+
+        .featured-artwork-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .featured-artwork-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .featured-artwork-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d68a7f;
+            margin-bottom: 2rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8e2d8, #f8d7da);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f8d7da, #d68a7f);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: #f8e2d8;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #d68a7f;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #d68a7f, #c97c72);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: white;
+            color: #d68a7f;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #f8d7da;
+        }
+
+        .footer-section a {
+            color: #bbb;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #f8d7da;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #bbb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .artwork-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">ArtVista</a>
+            <ul class="nav-links">
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#featured-artwork">今月の作品</a></li>
+                <li><a href="#artworks">作品一覧</a></li>
+                <li><a href="#about">サービス</a></li>
+                <li><a href="#contact">お問い合わせ</a></li>
+            </ul>
+            <a href="#contact" class="cta-button">今すぐ購入</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>美しい絵画作品との出会い</h1>
+                <p>世界中のアーティストが手がけた唯一無二の絵画作品を、あなたのお部屋に。厳選された高品質な作品を、手軽にオンラインでお求めいただけます。</p>
+                <div class="hero-buttons">
+                    <a href="#featured-artwork" class="btn-primary">今月の作品を見る</a>
+                    <a href="#about" class="btn-secondary">サービス詳細</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artwork -->
+    <section class="featured-artwork" id="featured-artwork">
+        <div class="container">
+            <h2 class="section-title">今月の特選作品</h2>
+            <div class="featured-artwork-container">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/yuragi-AvhrkdpidHSb5V6Dhnt6PTTf1WMCZl.png" alt="菊の花の水彩画" class="featured-artwork-image">
+                <div class="featured-artwork-info">
+                    <h3 class="featured-artwork-title">「揺らぎ - 菊花図」</h3>
+                    <p class="featured-artwork-description">
+                        繊細なタッチで描かれた菊の花は、日本の伝統美と現代的な感性が融合した珠玉の一作。淡いオレンジ色の背景に浮かび上がる白い菊と赤い小花が、静寂と活力のコントラストを生み出しています。和室にも洋室にも調和する、四季を感じる日本画です。
+                    </p>
+                    <p class="featured-artwork-price">¥180,000</p>
+                    <a href="#contact" class="btn-primary">この作品を購入する</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artworks -->
+    <section class="featured" id="artworks">
+        <div class="container">
+            <h2 class="section-title">その他の注目作品</h2>
+            <div class="artwork-grid">
+                <div class="artwork-card">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/can-crtVKzqKvtzZcIxMZOkC4fPYWI2t2i.png" alt="キャンドルの絵画" class="artwork-image">
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">静寂の灯り</h3>
+                        <p class="artwork-artist">秋山由佳</p>
+                        <p class="artwork-price">¥75,000</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Bouquet.jpg-n4UNolBlULIXb3ZuWHE3yFJTmzZv0b.jpeg" alt="花束の水彩画" class="artwork-image">
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">花束のある風景</h3>
+                        <p class="artwork-artist">秋山由佳</p>
+                        <p class="artwork-price">¥110,000</p>
+                    </div>
+                </div>
+                <div class="artwork-card">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_5473.jpg-pGtb4A3AUa7ZVRuimkfnA1dC7spJ0o.jpeg" alt="青い花の水彩画" class="artwork-image">
+                    <div class="artwork-info">
+                        <h3 class="artwork-title">青い花のささやき</h3>
+                        <p class="artwork-artist">秋山由佳</p>
+                        <p class="artwork-price">¥85,000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="about">
+        <div class="container">
+            <h2 class="section-title">ArtVistaが選ばれる理由</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">厳選された作品</h3>
+                    <p class="feature-description">プロの目利きによって選ばれた、高品質で価値のある絵画作品のみを取り扱っています。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3 class="feature-title">安全な配送</h3>
+                    <p class="feature-description">専用の梱包材と保険付きの配送で、大切な作品を安全にお届けします。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">真正性保証</h3>
+                    <p class="feature-description">すべての作品に真正性証明書を付与し、安心してお買い求めいただけます。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">パーソナル提案</h3>
+                    <p class="feature-description">お客様の好みや空間に合わせて、最適な作品をご提案いたします。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">お客様の声</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"購入した「揺らぎ - 菊花図」が部屋の雰囲気を一変させました。実物は写真以上に繊細で美しく、大満足です。"</p>
+                    <p class="testimonial-author">- 東京都 M.K様</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"アートに詳しくない私でも、スタッフの方が親切に相談に乗ってくれて、理想の作品に出会えました。"</p>
+                    <p class="testimonial-author">- 大阪府 T.S様</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"オンラインでの購入は不安でしたが、丁寧な対応と梱包で安心して取引できました。次回も利用したいです。"</p>
+                    <p class="testimonial-author">- 神奈川県 A.Y様</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>あなたの空間に芸術を</h2>
+            <p>今すぐ理想の絵画作品を見つけて、特別な空間を演出しませんか？</p>
+            <a href="#" class="btn-white">作品カタログを見る</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ArtVista</h3>
+                    <p>美しい絵画作品との出会いを提供する、プレミアムアートギャラリーです。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>サービス</h3>
+                    <a href="#">絵画販売</a>
+                    <a href="#">アート相談</a>
+                    <a href="#">配送サービス</a>
+                    <a href="#">真正性証明</a>
+                </div>
+                <div class="footer-section">
+                    <h3>サポート</h3>
+                    <a href="#">よくある質問</a>
+                    <a href="#">お問い合わせ</a>
+                    <a href="#">返品・交換</a>
+                    <a href="#">配送について</a>
+                </div>
+                <div class="footer-section">
+                    <h3>会社情報</h3>
+                    <a href="#">会社概要</a>
+                    <a href="#">プライバシーポリシー</a>
+                    <a href="#">利用規約</a>
+                    <a href="#">特定商取引法</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ArtVista. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
